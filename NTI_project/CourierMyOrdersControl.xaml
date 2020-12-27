@@ -1,0 +1,170 @@
+﻿<UserControl x:Class="NTI_project.CourierMyOrdersControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NTI_project"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:gif="http://wpfanimatedgif.codeplex.com"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" 
+             d:DesignHeight="715" d:DesignWidth="1010" Background="#FF2D2D30">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid x:Name="forPhysicalGrid" Grid.ColumnSpan="2">
+            <Grid Background="#FFAEAEAE" Margin="-3">
+                <Border Margin="10" Background="#FF2A2E32" Padding="30" CornerRadius="10">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="30" Color="DarkSlateGray" ShadowDepth="0"/>
+                    </Border.Effect>
+                    <StackPanel x:Name="HomePanel">
+                        <Grid>
+                            <TextBlock x:Name="mainText" FontSize="20" FontWeight="Bold" Foreground="White" Text="Мои заказы" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10"/>
+                            <TextBlock x:Name="comeBackButton" Text="&lt; Вернуться к списку заказов" FontSize="13" Foreground="LightGray" VerticalAlignment="Center" MouseEnter="comeBackButton_MouseEnter" MouseLeave="comeBackButton_MouseLeave" MouseLeftButtonDown="comeBackButton_MouseLeftButtonDown" MouseLeftButtonUp="comeBackButton_MouseLeftButtonUp" Margin="0,15" HorizontalAlignment="Right" Width="175"/>
+                        </Grid>
+                        <StackPanel x:Name="GridPanel" Height="584" Margin="0 10 0 10" Visibility="Visible">
+                            <DataGrid x:Name="OrdersGrid" ItemsSource="{Binding Items}" Height="543" 
+                                          CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" CanUserResizeRows="False" CanUserResizeColumns="False"
+                                          ClipboardCopyMode="IncludeHeader" IsReadOnly="True" 
+                                          AutoGenerateColumns="False" GridLinesVisibility="All" HeadersVisibility="Column" 
+                                          IsHitTestVisible="True" Background="#FF303438" MouseLeftButtonUp="OrdersGrid_MouseLeftButtonUp">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding OrderNum}" Header="Номер" Width="Auto"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding Address}" Header="Адрес" Width="Auto"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding Date}" Header="Дата" Width="Auto"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding Time}" Header="Время" Width="Auto"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding Weight}" Header="Вес (кг)" Width="Auto"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding Size}" Header="Размеры (м)" Width="Auto"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding Operation}" Header="Действие" Width="Auto"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding Status}" Header="Статус" Width="Auto"></DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <CheckBox x:Name="checkBox" Style="{StaticResource MaterialDesignAccentCheckBox}" HorizontalAlignment="Right" Margin="10" Content="Только активные" FontSize="16" Foreground="White" Click="CheckBox_Click">
+                            </CheckBox>
+                        </StackPanel>
+                        <StackPanel x:Name="CurrentOrderPanel" Height="584" Margin="0 10 0 10" Visibility="Collapsed">
+                            <Grid Margin="0 0 0 0" Height="250">
+                                <StackPanel HorizontalAlignment="Left" Width="465">
+                                    <Grid>
+                                        <TextBlock Text="Адрес:" FontSize="16" FontWeight="SemiBold" Foreground="White" Margin="5 20 0 5" VerticalAlignment="Center"></TextBlock>
+                                        <materialDesign:Card Background="#4C0097FF" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="76,20,-1,5" Width="390">
+                                            <TextBlock x:Name="Address" Grid.Row="0" Margin="8 3 8 3" FontSize="16" FontWeight="Regular" Text="..."/>
+                                        </materialDesign:Card>
+                                    </Grid>
+                                    <Grid>
+                                        <TextBlock Text="Номер телефона:" FontSize="16" FontWeight="SemiBold" Foreground="White" Margin="5 5 0 5" VerticalAlignment="Center"></TextBlock>
+                                        <materialDesign:Card Background="#4C0097FF" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="159,5,0,5" Width="306">
+                                            <TextBlock x:Name="Phonenumber" Grid.Row="0" Margin="8 3 8 3" FontSize="16" FontWeight="Regular" Text="..."/>
+                                        </materialDesign:Card>
+                                    </Grid>
+                                    <Grid>
+                                        <TextBlock Text="Клиент:" FontSize="16" FontWeight="SemiBold" Foreground="White" Margin="5 5 0 5" VerticalAlignment="Center"></TextBlock>
+                                        <materialDesign:Card Background="#4C0097FF" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="81,5,0,5" Width="384">
+                                            <TextBlock x:Name="Name" Grid.Row="0" Margin="8 3 8 3" FontSize="16" FontWeight="Regular" Text="..."/>
+                                        </materialDesign:Card>
+                                    </Grid>
+                                    <Grid>
+                                        <TextBlock Text="Дата:" FontSize="16" FontWeight="SemiBold" Foreground="White" Margin="5 5 0 5" VerticalAlignment="Center"></TextBlock>
+                                        <materialDesign:Card Background="#4C0097FF" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="63,5,0,5" Width="402">
+                                            <TextBlock x:Name="Date" Grid.Row="0" Margin="8 3 8 3" FontSize="16" FontWeight="Regular" Text="..."/>
+                                        </materialDesign:Card>
+                                    </Grid>
+                                    <Grid>
+                                        <TextBlock Text="Время:" FontSize="16" FontWeight="SemiBold" Foreground="White" Margin="5 5 0 5" VerticalAlignment="Center"></TextBlock>
+                                        <materialDesign:Card Background="#4C0097FF" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="72,5,0,5" Width="393">
+                                            <TextBlock x:Name="Time" Grid.Row="0" Margin="8 3 8 3" FontSize="16" FontWeight="Regular" Text="..."/>
+                                        </materialDesign:Card>
+                                    </Grid>
+
+                                </StackPanel>
+
+                                <StackPanel Margin="471,0,0,0" HorizontalAlignment="Left" Width="465">
+                                    <Grid>
+                                        <TextBlock Text="Вес посылки (кг):" FontSize="16" FontWeight="SemiBold" Foreground="White" Margin="5 20 0 5" VerticalAlignment="Center"></TextBlock>
+                                        <materialDesign:Card Background="#4C0097FF" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="150,20,0,5" Width="315">
+                                            <TextBlock x:Name="Weight" Grid.Row="0" Margin="8 3 8 3" FontSize="16" FontWeight="Regular" Text="..."/>
+                                        </materialDesign:Card>
+                                    </Grid>
+                                    <Grid>
+                                        <TextBlock Text="Объём посылки (м3):" FontSize="16" FontWeight="SemiBold" Foreground="White" Margin="5 5 0 5" VerticalAlignment="Center"></TextBlock>
+                                        <materialDesign:Card Background="#4C0097FF" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="181,5,0,5" Width="284">
+                                            <TextBlock x:Name="Volume" Grid.Row="0" Margin="8 3 8 3" FontSize="16" FontWeight="Regular" Text="..."/>
+                                        </materialDesign:Card>
+                                    </Grid>
+                                    <Grid HorizontalAlignment="Left" Width="465">
+                                        <TextBlock Text="Ширина (м):" FontSize="16" FontWeight="SemiBold" Foreground="White" Margin="5 5 0 5" VerticalAlignment="Center"></TextBlock>
+                                        <materialDesign:Card Background="#4C0097FF" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="114,5,0,5" Width="351">
+                                            <TextBlock x:Name="Width" Grid.Row="0" Margin="8 3 8 3" FontSize="16" FontWeight="Regular" Text="..."/>
+                                        </materialDesign:Card>
+                                    </Grid>
+                                    <Grid HorizontalAlignment="Left" Width="465">
+                                        <TextBlock Text="Длина (м):" FontSize="16" FontWeight="SemiBold" Foreground="White" Margin="5 5 0 5" VerticalAlignment="Center"></TextBlock>
+                                        <materialDesign:Card Background="#4C0097FF" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="98,5,0,5" Width="367">
+                                            <TextBlock x:Name="Length" Grid.Row="0" Margin="8 3 8 3" FontSize="16" FontWeight="Regular" Text="..."/>
+                                        </materialDesign:Card>
+                                    </Grid>
+                                    <Grid HorizontalAlignment="Left" Width="465">
+                                        <TextBlock Text="Высота (м):" FontSize="16" FontWeight="SemiBold" Foreground="White" Margin="5 5 0 5" VerticalAlignment="Center"></TextBlock>
+                                        <materialDesign:Card Background="#4C0097FF" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="108,5,0,5" Width="357">
+                                            <TextBlock x:Name="Height" Grid.Row="0" Margin="8 3 8 3" FontSize="16" FontWeight="Regular" Text="..."/>
+                                        </materialDesign:Card>
+                                    </Grid>
+                                </StackPanel>
+                                <StackPanel Margin="0,203,0,0">
+                                    <Grid Margin="216,5,0,5" HorizontalAlignment="Left" Width="504">
+                                        <TextBlock Text="Вид работы:" FontSize="16" FontWeight="SemiBold" Foreground="White" Margin="5 5 0 5" VerticalAlignment="Center"></TextBlock>
+                                        <materialDesign:Card Background="#4C0097FF" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="112,5,0,5" Width="353">
+                                            <TextBlock x:Name="Operation" Grid.Row="0" Margin="8 3 8 3" FontSize="16" FontWeight="Regular" Text="..."/>
+                                        </materialDesign:Card>
+                                    </Grid>
+                                </StackPanel>
+
+                            </Grid>
+                            <Grid Margin="0 15 0 0">
+                                <StackPanel HorizontalAlignment="Left" Width="465">
+
+                                </StackPanel>
+
+                                <StackPanel Margin="471,0,0,0" HorizontalAlignment="Left" Width="465">
+
+
+                                </StackPanel>
+
+                            </Grid>
+                            <StackPanel x:Name="Done" Margin="376,0,0,0" HorizontalAlignment="Left" Width="184" Visibility="Collapsed">
+                                <Border Margin="5" Background="#FF2A2E32" Padding="0" CornerRadius="10">
+                                    <Border.Effect>
+                                        <DropShadowEffect BlurRadius="30" Color="DarkSlateGray" ShadowDepth="0"/>
+                                    </Border.Effect>
+                                    <Grid HorizontalAlignment="Left" Width="932" Margin="-392,0,0,0">
+                                        <materialDesign:PackIcon Kind="Check" Width="40" Height="40" HorizontalAlignment="Center" Margin="400,0,496,0" Foreground="#FF008BFF"></materialDesign:PackIcon>
+                                        <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="Выполнено" Foreground="#FF008BFF" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="443,7,376,7" Width="113"></TextBlock>
+                                    </Grid>
+                                </Border>
+                            </StackPanel>
+                            <StackPanel x:Name="NotDone" HorizontalAlignment="Left" Width="936">
+                                <Grid>
+                                    <Button x:Name="ClientButton" Style="{StaticResource MaterialDesignOutlinedButton}" Content="Связаться с клиентом" Margin="38,10,0,10" ClickMode="Release" HorizontalAlignment="Left" Width="250"/>
+                                    <Button x:Name="CancelButton" Style="{StaticResource MaterialDesignOutlinedButton}" Content="Отказаться от выполнения" Margin="644,10,0,10" ClickMode="Release" HorizontalAlignment="Left" Width="259" Click="CancelButton_Click"/>
+                                    <Button x:Name="ApplyButton" Style="{StaticResource MaterialDesignOutlinedButton}" Content="Работа выполнена" Margin="339,10,0,10" ClickMode="Release" Click="PaidButton_Click" HorizontalAlignment="Left" Width="260"/>
+                                </Grid>
+                            </StackPanel>
+                        </StackPanel>
+
+
+
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+        <Border Name="loadborder" Margin="411,263.5,411,263.5" Grid.ColumnSpan="2" BorderBrush="#FF00A2FF" BorderThickness="1" CornerRadius="3" Visibility="Hidden">
+            <Image gif:ImageBehavior.AnimatedSource="pack://application:,,,/Images/loading.gif" Name="LoadingGif" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
+        </Border>
+    </Grid>
+
+</UserControl>

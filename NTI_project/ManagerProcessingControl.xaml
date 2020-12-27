@@ -1,0 +1,191 @@
+﻿<UserControl x:Class="NTI_project.ManagerProcessingControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NTI_project"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:gif="http://wpfanimatedgif.codeplex.com"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" 
+             d:DesignHeight="715" d:DesignWidth="1010" Background="#FF2D2D30">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid x:Name="forPhysicalGrid" Grid.ColumnSpan="2">
+            <Grid Background="#FFAEAEAE" Margin="-3">
+                <Border Margin="10" Background="#FF2A2E32" Padding="30" CornerRadius="10">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="30" Color="DarkSlateGray" ShadowDepth="0"/>
+                    </Border.Effect>
+                    <StackPanel x:Name="HomePanel" Margin="0,-30,0,-20">
+                        <Grid>
+                            <TextBlock x:Name="mainText" FontSize="20" FontWeight="Bold" Foreground="White" Text="Обработка заявок" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 20 0 5"/>
+                        </Grid>
+                        <TextBox x:Name="text" TextWrapping="Wrap" AcceptsReturn="True" IsReadOnly="True" FontSize="15" FontWeight="Light" Foreground="White" Text="Вам следует проверить (по надобности, изменить) информацию о данном заказе. А затем нажать на кнопку &quot;Подтвердить заказ&quot;." HorizontalAlignment="Left" VerticalAlignment="Center" Width="916" Margin="10,0,0,0"/>
+                        <StackPanel x:Name="CurrentOrderPanel" Height="623" Margin="0 0 0 10" Visibility="Visible">
+                            <Grid Margin="0 0 0 0" Height="270">
+                                <StackPanel HorizontalAlignment="Left" Width="465">
+                                    <Grid>
+                                        <TextBlock Text="Адрес отправителя:" FontSize="16" FontWeight="SemiBold" Foreground="White" Margin="5 10 0 5" VerticalAlignment="Center"></TextBlock>
+                                        <materialDesign:Card Background="#4C0097FF" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="165,10,-1,5" Width="301">
+                                            <TextBox x:Name="SenderAddress" Grid.Row="0" Margin="8 3 8 3" FontSize="16" FontWeight="Regular" Text="..." TextChanged="SenderAddress_TextChanged"/>
+                                        </materialDesign:Card>
+                                    </Grid>
+                                    <Grid HorizontalAlignment="Left" Width="465">
+                                        <TextBlock Text="Отправитель:" FontSize="16" FontWeight="SemiBold" Foreground="White" Margin="5 5 0 5" VerticalAlignment="Center"></TextBlock>
+                                        <materialDesign:Card Background="#4C0097FF" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="114,9,0,9" Width="351">
+                                            <TextBlock x:Name="SenderName" Grid.Row="0" Margin="8,3,10,3" FontSize="16" FontWeight="Regular" Text="..." ToolTip="Это поле нельзя изменять"/>
+                                        </materialDesign:Card>
+                                    </Grid>
+                                    <Grid>
+                                        <TextBlock Text="Номер телефона отправителя:" FontSize="16" FontWeight="SemiBold" Foreground="White" Margin="5 5 0 5" VerticalAlignment="Center"></TextBlock>
+                                        <materialDesign:Card Background="#4C0097FF" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="242,8,0,8" Width="223">
+                                            <xctk:MaskedTextBox  Mask="0 (000) 000-0000" Style="{StaticResource MaterialDesignComboBoxEditableTextBox}" x:Name="SenderPhonenumber" Grid.Row="0" Margin="8 3 8 3" FontSize="16" FontWeight="Regular" Text="..." TextChanged="SenderPhonenumber_TextChanged"/>
+                                        </materialDesign:Card>
+                                    </Grid>
+                                    <Grid>
+                                        <TextBlock Text="Дата отправки (забора):" FontSize="16" FontWeight="SemiBold" Foreground="White" Margin="5 5 0 5" VerticalAlignment="Center"></TextBlock>
+                                        <materialDesign:Card Background="#4C0097FF" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="202,5,0,5" Width="263">
+                                            <DatePicker x:Name="SenderDate" Grid.Row="0" Margin="8 3 8 3" FontSize="16" FontWeight="Regular" Text="..." Language="ru" SelectedDateChanged="SenderDate_SelectedDateChanged"/>
+                                        </materialDesign:Card>
+                                    </Grid>
+                                    <Grid>
+                                        <TextBlock Text="Время отправки (забора):" FontSize="16" FontWeight="SemiBold" Foreground="White" Margin="5 5 0 5" VerticalAlignment="Center"></TextBlock>
+                                        <materialDesign:Card Background="#4C0097FF" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="216,5,0,5" Width="249">
+                                            <materialDesign:TimePicker materialDesign:HintAssist.Hint="" x:Name="SenderTime" Grid.Row="0" Margin="8 3 8 3" FontSize="16" FontWeight="Regular" Text="..." Language="ru" Is24Hours="True" SelectedTimeChanged="SenderTime_SelectedTimeChanged"/>
+                                        </materialDesign:Card>
+                                    </Grid>
+                                    <Grid>
+                                        <TextBlock Text="Дата подачи заявки:" FontSize="16" FontWeight="SemiBold" Foreground="White" Margin="5 5 0 5" VerticalAlignment="Center"></TextBlock>
+                                        <materialDesign:Card Background="#4C0097FF" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="175,10,0,10" Width="290">
+                                            <TextBlock x:Name="TimeStamp" Grid.Row="0" Margin="8 3 8 3" FontSize="16" FontWeight="Regular" Text="..." ToolTip="Это поле нельзя изменить."/>
+                                        </materialDesign:Card>
+                                    </Grid>
+                                </StackPanel>
+
+                                <StackPanel Margin="471,0,0,0" HorizontalAlignment="Left" Width="465">
+                                    <Grid HorizontalAlignment="Left" Width="465">
+                                        <TextBlock Text="Адрес получателя:" FontSize="16" FontWeight="SemiBold" Foreground="White" Margin="5 10 0 5" VerticalAlignment="Center"></TextBlock>
+                                        <materialDesign:Card Background="#4C0097FF" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="161,10,0,5" Width="304">
+                                            <TextBox x:Name="AddresseeAddress" Grid.Row="0" Margin="8 3 8 3" FontSize="16" FontWeight="Regular" Text="..." TextChanged="AddresseeAddress_TextChanged"/>
+                                        </materialDesign:Card>
+                                    </Grid>
+                                    <Grid HorizontalAlignment="Left" Width="465">
+                                        <TextBlock Text="Получатель:" FontSize="16" FontWeight="SemiBold" Foreground="White" Margin="5 5 0 5" VerticalAlignment="Center"></TextBlock>
+                                        <materialDesign:Card Background="#4C0097FF" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="114,5,0,5" Width="351">
+                                            <TextBox x:Name="AddresseeName" Grid.Row="0" Margin="8,3,10,3" FontSize="16" FontWeight="Regular" Text="..." TextChanged="AddresseeName_TextChanged"/>
+                                        </materialDesign:Card>
+                                    </Grid>
+                                    <Grid HorizontalAlignment="Left" Width="465">
+                                        <TextBlock Text="Номер телефона получателя:" FontSize="16" FontWeight="SemiBold" Foreground="White" Margin="5 5 0 5" VerticalAlignment="Center"></TextBlock>
+                                        <materialDesign:Card Background="#4C0097FF" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="240,8,0,8" Width="225">
+                                            <xctk:MaskedTextBox  Mask="0 (000) 000-0000" Style="{StaticResource MaterialDesignComboBoxEditableTextBox}" x:Name="AddresseePhonenumber" Grid.Row="0" Margin="8 3 8 3" FontSize="16" FontWeight="Regular" Text="..." TextChanged="AddresseePhonenumber_TextChanged"/>
+                                        </materialDesign:Card>
+                                    </Grid>
+                                    <Grid HorizontalAlignment="Left" Width="465">
+                                        <TextBlock Text="Дата доставки:" FontSize="16" FontWeight="SemiBold" Foreground="White" Margin="5 5 0 5" VerticalAlignment="Center"></TextBlock>
+                                        <materialDesign:Card Background="#4C0097FF" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="133,5,0,5" Width="332">
+                                            <DatePicker x:Name="DeliveryDate" Grid.Row="0" Margin="8 3 8 3" FontSize="16" FontWeight="Regular" Language="ru" Text="..." SelectedDateChanged="DeliveryDate_SelectedDateChanged"/>
+                                        </materialDesign:Card>
+                                    </Grid>
+                                    <Grid HorizontalAlignment="Left" Width="465">
+                                        <TextBlock Text="Время доставки:" FontSize="16" FontWeight="SemiBold" Foreground="White" Margin="5 5 0 5" VerticalAlignment="Center"></TextBlock>
+                                        <materialDesign:Card Background="#4C0097FF" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="184,5,0,5" Width="281">
+                                            <materialDesign:TimePicker materialDesign:HintAssist.Hint="" x:Name="DeliveryTime" Grid.Row="0" Margin="8 3 8 3" FontSize="16" FontWeight="Regular" Is24Hours="True" Text="..." SelectedTimeChanged="DeliveryTime_SelectedTimeChanged"/>
+                                        </materialDesign:Card>
+                                    </Grid>
+                                </StackPanel>
+
+                            </Grid>
+                            <Grid Margin="0 10 0 0">
+                                <StackPanel HorizontalAlignment="Left" Width="465">
+                                    <Grid>
+                                        <TextBlock Text="Вес посылки (кг):" FontSize="16" FontWeight="SemiBold" Foreground="White" Margin="5 5 0 5" VerticalAlignment="Center"></TextBlock>
+                                        <materialDesign:Card Background="#4C0097FF" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="150,5,0,5" Width="315">
+                                            <TextBox x:Name="Weight" Grid.Row="0" Margin="8 3 8 3" FontSize="16" FontWeight="Regular" Text="..." PreviewTextInput="Weight_PreviewTextInput" TextChanged="Weight_TextChanged"/>
+                                        </materialDesign:Card>
+                                    </Grid>
+                                    <Grid>
+                                        <TextBlock Text="Объём посылки (м3):" FontSize="16" FontWeight="SemiBold" Foreground="White" Margin="5 5 0 5" VerticalAlignment="Center"></TextBlock>
+                                        <materialDesign:Card Background="#4C0097FF" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="181,5,0,5" Width="284">
+                                            <TextBox x:Name="Volume" Grid.Row="0" Margin="8 3 8 3" FontSize="16" FontWeight="Regular" Text="..." TextChanged="Volume_TextChanged" PreviewTextInput="Volume_PreviewTextInput"/>
+                                        </materialDesign:Card>
+                                    </Grid>
+                                    <Grid>
+                                        <TextBlock Text="Цена (руб.):" FontSize="16" FontWeight="SemiBold" Foreground="White" Margin="5 5 0 5" VerticalAlignment="Center"></TextBlock>
+                                        <materialDesign:Card Background="#4C0097FF" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="112,9,0,9" Width="353">
+                                            <TextBlock x:Name="Price" Grid.Row="0" Margin="8 3 8 3" FontSize="16" FontWeight="Regular" Text="..."/>
+                                        </materialDesign:Card>
+                                    </Grid>
+                                </StackPanel>
+
+                                <StackPanel Margin="471,0,0,0" HorizontalAlignment="Left" Width="465">
+                                    <Grid HorizontalAlignment="Left" Width="465">
+                                        <TextBlock Text="Ширина (м):" FontSize="16" FontWeight="SemiBold" Foreground="White" Margin="5 5 0 5" VerticalAlignment="Center"></TextBlock>
+                                        <materialDesign:Card Background="#4C0097FF" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="114,5,0,5" Width="351">
+                                            <TextBox x:Name="Width" Grid.Row="0" Margin="8 3 8 3" FontSize="16" FontWeight="Regular" Text="..." PreviewTextInput="Width_PreviewTextInput" TextChanged="Width_TextChanged"/>
+                                        </materialDesign:Card>
+                                    </Grid>
+                                    <Grid HorizontalAlignment="Left" Width="465">
+                                        <TextBlock Text="Длина (м):" FontSize="16" FontWeight="SemiBold" Foreground="White" Margin="5 5 0 5" VerticalAlignment="Center"></TextBlock>
+                                        <materialDesign:Card Background="#4C0097FF" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="98,5,0,5" Width="367">
+                                            <TextBox x:Name="Length" Grid.Row="0" Margin="8 3 8 3" FontSize="16" FontWeight="Regular" Text="..." PreviewTextInput="Length_PreviewTextInput" TextChanged="Length_TextChanged"/>
+                                        </materialDesign:Card>
+                                    </Grid>
+                                    <Grid HorizontalAlignment="Left" Width="465">
+                                        <TextBlock Text="Высота (м):" FontSize="16" FontWeight="SemiBold" Foreground="White" Margin="5 5 0 5" VerticalAlignment="Center"></TextBlock>
+                                        <materialDesign:Card Background="#4C0097FF" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="108,5,0,5" Width="357">
+                                            <TextBox x:Name="Height" Grid.Row="0" Margin="8 3 8 3" FontSize="16" FontWeight="Regular" Text="..." PreviewTextInput="Height_PreviewTextInput" TextChanged="Height_TextChanged"/>
+                                        </materialDesign:Card>
+                                    </Grid>
+
+                                </StackPanel>
+
+                            </Grid>
+                            <StackPanel Margin="0 0 0 0">
+                                <Grid Margin="0 2 0 0">
+                                    <RadioButton x:Name="PlacerButton" Content="Россыпь" Style="{StaticResource MaterialDesignUserForegroundRadioButton}" Margin="0,5" Foreground="LightGray" Background="#FF515151" IsChecked="True" HorizontalAlignment="Left" Width="68"/>
+                                    <RadioButton x:Name="PalletButton" Content="Паллет" Style="{StaticResource MaterialDesignUserForegroundRadioButton}" Margin="150,5,0,5" Foreground="LightGray" Background="#FF515151" HorizontalAlignment="Left" Width="61"/>
+                                </Grid>
+                                <Grid Margin="5,5,0,5" HorizontalAlignment="Left" Width="926">
+                                    <CheckBox x:Name="add1" Content="Жесткая упаковка" Style="{StaticResource MaterialDesignFilterChipPrimaryCheckBox}" ToolTip="Упаковка груза на деревянный поддон с закреплением конструкцией из досок, брусьев и т.д. Предохраняет хрупкие грузы от механического воздействия" HorizontalAlignment="Left" Width="135" Checked="add1_Checked" Unchecked="add1_Unchecked"/>
+                                    <CheckBox x:Name="add2" Content="Хрупкий груз" Style="{StaticResource MaterialDesignFilterChipPrimaryCheckBox}" ToolTip="Груз требует бережного обращения" Margin="163,0,0,0" HorizontalAlignment="Left" Width="119"  Checked="add2_Checked" Unchecked="add2_Unchecked"></CheckBox>
+                                    <CheckBox x:Name="add3" Content="Погрузка груза на европаллет" Style="{StaticResource MaterialDesignFilterChipPrimaryCheckBox}"  Margin="313,0,0,0" HorizontalAlignment="Left" Width="208" Checked="add3_Checked" Unchecked="add3_Unchecked"></CheckBox>
+                                    <CheckBox x:Name="add4" Content="Теплорежим" Style="{StaticResource MaterialDesignFilterChipPrimaryCheckBox}" Margin="560,0,0,0" ToolTip="Режим предусматривающий транспортировку груза при постоянной температуре" HorizontalAlignment="Left" Width="138" Checked="add4_Checked" Unchecked="add4_Unchecked"></CheckBox>
+                                    <CheckBox x:Name="add5" Content="Упаковка в коробки" Style="{StaticResource MaterialDesignFilterChipPrimaryCheckBox}" Margin="727,0,0,0" HorizontalAlignment="Left" Width="173" Checked="add5_Checked" Unchecked="add5_Unchecked"/>
+                                </Grid>
+                                <Grid Margin="5,5,0,10" HorizontalAlignment="Left" Width="926">
+                                    <CheckBox x:Name="add6" Content="Оборачивание груза в воздушно-пузырьковую пленку" Style="{StaticResource MaterialDesignFilterChipPrimaryCheckBox}" ToolTip="Упаковка груза на деревянный поддон с закреплением конструкцией из досок, брусьев и т.д. Предохраняет хрупкие грузы от механического воздействия" HorizontalAlignment="Left" Width="353" Checked="add6_Checked" Unchecked="add6_Unchecked"/>
+                                    <CheckBox x:Name="add7" Content="Упаковка грузов в cтрейчпленку" Style="{StaticResource MaterialDesignFilterChipPrimaryCheckBox}" Margin="404,0,0,0" RenderTransformOrigin="1.065,0.531" HorizontalAlignment="Left" Width="252" Checked="add7_Checked" Unchecked="add7_Unchecked"></CheckBox>
+                                    <CheckBox x:Name="add8" Content="Обшив тканью" Style="{StaticResource MaterialDesignFilterChipPrimaryCheckBox}" Margin="704,0,0,0" ToolTip="Изготовление тканеыой оболочки для малогабаритного груза." HorizontalAlignment="Left" Width="159" Checked="add8_Checked" Unchecked="add8_Unchecked"></CheckBox>
+                                </Grid>
+                                
+                            </StackPanel>
+                            <StackPanel HorizontalAlignment="Left" Width="936">
+                                <Grid>
+                                    <Button x:Name="AcceptButton" Style="{StaticResource MaterialDesignOutlinedButton}" Content="Подтвердить заказ" Margin="228,0,0,0" ClickMode="Release" HorizontalAlignment="Left" Width="211" Click="AcceptButton_Click"/>
+                                    <Button x:Name="CancelButton" Style="{StaticResource MaterialDesignOutlinedButton}" Content="Отменить заказ" Margin="0,0,238,0" ClickMode="Release" HorizontalAlignment="Right" Width="208" Click="CancelButton_Click"/>
+                                </Grid>
+                            </StackPanel>
+                            <Grid Height="41" Margin="0 5 0 0">
+                                <Button x:Name="PrevButton" Style="{StaticResource MaterialDesignIconForegroundButton}" Content="&lt;" Margin="386,0,0,10" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="27" Width="27" Click="PrevButton_Click" ClickMode="Release"></Button>
+                                <TextBlock x:Name="TrackNum" Text="1 из 1" HorizontalAlignment="Center" Foreground="White" Style="{StaticResource ResourceKey=MaterialDesignHeadline6TextBlock}" TextDecorations="Underline" Margin="438,0" Height="37" VerticalAlignment="Bottom"/>
+                                <Button x:Name="NextButton" Style="{StaticResource MaterialDesignIconForegroundButton}" Content="&gt;" Margin="0,0,386,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="27" Width="27" Click="NextButton_Click" ClickMode="Release"></Button>
+                            </Grid>
+                        </StackPanel>
+                        
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+        <Border Name="loadborder" Margin="411,263.5,411,263.5" Grid.ColumnSpan="2" BorderBrush="#FF00A2FF" BorderThickness="1" CornerRadius="3" Visibility="Hidden">
+            <Image gif:ImageBehavior.AnimatedSource="pack://application:,,,/Images/loading.gif" Name="LoadingGif" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
+        </Border>
+    </Grid>
+
+</UserControl>
